@@ -31,7 +31,7 @@ def extract_tags_from_directory(directory_path):
 
     for filename in os.listdir(directory_path):
         # Process only .sfm files
-        if filename.endswith('.sfm') or filename.endswith('.SFM'):
+        if filename.endswith('.sfm') or filename.endswith('.SFM') or filename.endswith('.usfm') or filename.endswith('.USFM'):
             file_path = os.path.join(directory_path, filename)
             print(f"Extracting tags from: {filename}")
             file_tags = extract_tags_from_sfm(file_path)
