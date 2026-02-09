@@ -3,7 +3,12 @@ import sys
 import re
 from pathlib import Path
 
-WEB = "WEB"
+WEB = "KJV"
+
+def sanitize_folder_name(raw_folder):
+    words = raw_folder.split()                                                                                                                      
+    capitalized_words = [word.capitalize() for word in words]                                                                                       
+    return ' '.join(capitalized_words) 
 
 def process_markdown_file(file_path):
     try:
@@ -11,19 +16,16 @@ def process_markdown_file(file_path):
             lines = f.readlines()
 
         content = "".join(lines)
-        
         header_match = re.search(r'^#\s+.*(\d+)', content, re.MULTILINE)
         if not header_match:
             print(f"Skipping {file_path}: No number found in first H1 header.")
             return
 
         extracted_number = header_match.group(1)
-
         raw_folder = file_path.parent.name
-        folder_name = raw_folder.capitalize().replace('_', ' ').replace('-', ' ')
-
+        folder_name_pre = raw_folder.capitalize().replace('_', ' ').replace('-', ' ')
+        folder_name = sanitize_folder_name(folder_name_pre)
         new_title = f"{folder_name} {extracted_number} {WEB}"
-
         updated_lines = []
         title_added = False
         
@@ -31,6 +33,10 @@ def process_markdown_file(file_path):
             if "weight:" in line and not title_added:
                 updated_lines.append(f"title: {new_title}\n")
                 title_added = True
+            if f"{header_match.group(0)}" in line:
+                updated_lines.append(f"# {folder_name} {extracted_number} \n")
+                continue;
+
             updated_lines.append(line)
 
         if title_added:
@@ -49,7 +55,6 @@ def main():
         return
 
     target_dir = Path(sys.argv[1])
-
     if not target_dir.is_dir():
         print(f"Error: {target_dir} is not a valid directory.")
         return
