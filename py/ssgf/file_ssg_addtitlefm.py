@@ -17,6 +17,10 @@ def process_markdown_file(file_path):
 
         content = "".join(lines)
         header_match = re.search(r'^#\s+.*(\d+)', content, re.MULTILINE)
+        verse_match = re.search(r'^\*\*¹\*\* (.*)', content, re.MULTILINE)
+        description_value = verse_match.group(0).replace('**¹** ', '').strip()
+        dv_cleaned = re.sub(r"[^\w\s]$", "", description_value)
+
         if not header_match:
             print(f"Skipping {file_path}: No number found in first H1 header.")
             return
@@ -31,7 +35,9 @@ def process_markdown_file(file_path):
         
         for line in lines:
             if "weight:" in line and not title_added:
-                updated_lines.append(f"title: {new_title}\n")
+                updated_lines.append(f"title: \"{new_title} | Read the Bible Online\"\n")
+                updated_lines.append(f"linkTitle: \"{extracted_number}\"\n")
+                updated_lines.append(f"description: \"Read {folder_name} {extracted_number} Online | {dv_cleaned}...\"\n")
                 title_added = True
             if f"{header_match.group(0)}" in line:
                 updated_lines.append(f"# {folder_name} {extracted_number} \n")
