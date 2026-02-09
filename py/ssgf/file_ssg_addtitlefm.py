@@ -3,7 +3,7 @@ import sys
 import re
 from pathlib import Path
 
-WEB = "KJV"
+WEB = "WEB"
 
 def sanitize_folder_name(raw_folder):
     words = raw_folder.split()                                                                                                                      
@@ -16,7 +16,7 @@ def process_markdown_file(file_path):
             lines = f.readlines()
 
         content = "".join(lines)
-        header_match = re.search(r'^#\s+.*(\d+)', content, re.MULTILINE)
+        header_match = re.search(r'^#\s+.*?(\d+)\s*$', content, re.MULTILINE)
         verse_match = re.search(r'^\*\*¹\*\* (.*)', content, re.MULTILINE)
         description_value = verse_match.group(0).replace('**¹** ', '').strip()
         dv_cleaned = re.sub(r"[^\w\s]$", "", description_value)
