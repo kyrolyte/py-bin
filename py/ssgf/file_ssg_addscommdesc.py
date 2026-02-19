@@ -27,6 +27,13 @@ def process_markdown_file(file_path):
         else:
             dv_cleaned = description_value
 
+        dv_cleaned = (
+            dv_cleaned
+            .replace('\\', '\\\\')
+            .replace('"', '\\"')
+            .replace("'", "\\'")
+        )
+
         extracted_number = header_match.group(1)
         raw_folder = file_path.parent.name
         folder_name_pre = raw_folder.capitalize().replace('_', ' ').replace('-', ' ')
