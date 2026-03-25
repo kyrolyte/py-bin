@@ -10,6 +10,8 @@ def process_markdown_file(file_path):
         content = content.replace('.**', ' &mdash;**')
         content = content.replace(' * ', '* ')
         content = content.replace(' )', ')')
+        content = content.replace('`', "'")
+        content = content.replace(", ' ", ",' ")
 
         # Write the modified content back to the file
         with open(file_path, 'w', encoding='utf-8') as file:
