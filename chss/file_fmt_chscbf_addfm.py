@@ -94,7 +94,7 @@ def process_file(filepath: Path) -> None:
     h1_text = h1_line[2:].strip()
 
     # Title: "<H1> | Read Online"
-    new_title = f"{h1_text} | Online Daily Devotional"
+    new_title = f"{h1_text} | Read Online"
 
     # ----- 2. linkTitle from file name ----------------------------
     number_match = re.search(r"(\d+)", filepath.name)
@@ -129,7 +129,7 @@ def process_file(filepath: Path) -> None:
     m = re.search(r"\.(?=\s|$)", second_para)
     first_sentence = second_para[: m.end()].strip() if m else second_para.strip()
 
-    description = f"From Faith's Checkbook, Daily Devotionals by Charles Spurgeon. {first_sentence}"
+    description = f"Daily readings. {first_sentence}"
 
     # ----- 4. Build the new YAML block ----------------------------
     new_yaml = build_new_yaml(yaml_dict, new_title, link_title, description)
