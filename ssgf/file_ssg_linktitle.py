@@ -10,7 +10,7 @@ for the pattern:
 where `{n}` is an integer from 1 to 200 (inclusive).  Whenever that
 pattern is found it is replaced with
 
-    linkTitle: 'WORDHERE {n}'
+    linkTitle: 'WORD {n}'
 
 The original file is overwritten only when at least one replacement
 has been made.  The script prints a short summary for each processed
@@ -47,13 +47,13 @@ def replacement(match: Match[str]) -> str:
     Return the replacement string for a regex match.
 
     If the captured number is in the 1‑200 range we return
-    ``linkTitle: 'WORDHERE {n}'``.  Otherwise we return the original text
+    ``linkTitle: 'WORD {n}'``.  Otherwise we return the original text
     unchanged so that numbers outside the desired range are left
     untouched.
     """
     n = int(match.group(1))
     if 1 <= n <= 200:
-        return f"linkTitle: 'WORDHERE {n}'"
+        return f"linkTitle: 'WORD {n}'"
     # No replacement – keep the original string
     return match.group(0)
 
